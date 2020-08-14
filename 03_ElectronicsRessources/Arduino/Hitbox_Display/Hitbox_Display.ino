@@ -45,14 +45,16 @@ int bufIndex = 0;               // index of the last received character
 #define BRIGHTNESS 255
 #define black   ((0 << 16) | (0 << 8) | 0)        // ((RED << 16) | (GREEN << 8) | BLUE)
 #define white   ((255 << 16) | (255 << 8) | 255)
-#define green   ((0 << 16) | (200 << 8) | 30)
+#define red   ((255 << 16) | (5 << 8) | 5)
+#define green   ((0 << 16) | (250 << 8) | 30)
 #define yellow  ((200 << 16) | (175 << 8) | 0)
-#define magenta ((216 << 16) | (0 << 8) | 216)
+#define blue ((0 << 16) | (0 << 8) | 255)
+#define magenta ((220 << 16) | (0 << 8) | 220)
 int myColor = green;
 
 // Save screen animation mode
 long timerSaveScreen0;         // time reference to launch save screen
-int delSavModeActiv = 10000;   // delay in millis before to launch save screen
+int delSavModeActiv = 1000;   // delay in millis before to launch save screen
 
 // Grid animation mode
 boolean isGrid = false ;
@@ -107,8 +109,29 @@ void loop() {
   //--------- ANIMATIONS -----------
   //--------------------------------
   // COLOR ANIMATION
-  float speed_ = millis() / 2000;
-  myColor = getColorReference(cos(speed_) * 255, sin(speed_) * 255, (1 - cos(speed_)) * 255);
+  //float speed_ = millis() / 2000;
+  //myColor = getColorReference(cos(speed_) * 255, sin(speed_) * 255, (1 - cos(speed_)) * 255);
+
+  int speed_ = millis() / 10000;
+  int curColIndex_ = speed_ % 4;
+  switch(curColIndex_) {
+    case 0:
+      myColor = blue;
+      break;
+    case 1:
+      myColor = green;
+      break;
+    case 2:
+      myColor = red;
+      break;
+    case 3:
+      myColor = yellow;
+      break;
+    default:
+      myColor = green;
+      break;
+  }
+  
 
   // SAVE SCREEN ANIMATION
   if (millis() - timerSaveScreen0 > delSavModeActiv) {
